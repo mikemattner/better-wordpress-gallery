@@ -1,23 +1,24 @@
 <?php
 /**
  * @package MM_Better_Gallery
- * @version 1.1.0
+ * @version 1.2.0
  */
 /*
 Plugin Name: Better Gallery Shortcode
 Plugin URI: http://mikemattner.com
 Description: This plugin uses more semantic markup for the gallery shortcode output. Modify plugin CSS on your own.
 Author: Mike Mattner
-Version: 1.1.0
+Version: 1.2.0
 Author URI: http://mikemattner.com/
 */
 
-define('MM_PLUGIN_VER', '1.1.0');
+define('MM_PLUGIN_VER', '1.2.0');
 define('MM_PLUGIN_NAME', 'MM_Better_Gallery');
 
 class MM_Better_Gallery {
     static $instance;
     var $plugin_url;
+    var $plugin_dir;
     var $options = null;
     protected $defaults = array(
             'include_css'   => 'true',
@@ -30,6 +31,7 @@ class MM_Better_Gallery {
     public function __construct() {
       self::$instance   = $this;
       $this->init();
+      $this->plugin_dir = plugin_dir_path( __FILE__ );
       $this->plugin_url = plugin_dir_url( __FILE__ );
       $this->options = $this->mm_get_options();
     }
@@ -39,16 +41,22 @@ class MM_Better_Gallery {
       add_shortcode( 'gallery', array( $this,'mm_gallery_shortcode' ) );                      // replace gallery shortcode
       add_action( 'the_posts', array( $this,'mm_gallery_check' ) );                           // check for shortcode, if exists add gallery css
       add_filter( 'post_gallery', array( $this, 'new_gallery_shortcode_defaults' ), 10, 2 );  // if file_link true, set link="file" as default shortcode
+
+      //admin page and options
+      isset($_REQUEST['_wp_mm_bg_nonce']) ? add_action('admin_init',array($this,'mm_options_save') ) : null;
+      add_action( 'admin_init', array($this,'mm_get_options') );                              // set default values on first run
+      add_filter( 'plugin_action_links', array($this,'mm_plugin_action_links'), 10, 3 );      // add settings page to menu
+      add_action( 'admin_menu', array($this,'gads_options_menu') );                           // options page
     }
 
     /**
     * Basic options, will add admin page for options
     *
     * updates option 'mm_gallery_options' as an array of options
-    * @options include_css, show_captions, file_link, version
+    * @options include_css, show_captions, file_link, version,name
     */
 
-    protected function mm_get_options() {
+    public function mm_get_options() {
       $options = get_option('mm_gallery_options');
 
       // Test to see if options exist
@@ -67,6 +75,57 @@ class MM_Better_Gallery {
       $options = $this->options;
       if($options['version'] == MM_PLUGIN_VER)
         return true;
+    }
+
+    /*
+    * Admin Options Save
+    */
+    public function mm_options_save() {
+      $options = $this->options;
+
+      //include_css,show_captions,file_link
+      if(wp_verify_nonce($_REQUEST['_wp_mm_bg_nonce'],'mm_bg')) {
+        if ( isset($_POST['submit']) ) {
+          ( function_exists('current_user_can') && !current_user_can('manage_options') ) ? die(__('Cheatin&#8217; uh?', 'mm_custom')) : null;
+                        
+            $options['include_css']      = ( isset($_POST['mm-include_css'])    ? 'true' : 'false' );
+            $options['show_captions']    = ( isset($_POST['mm-show_captions'])  ? 'true' : 'false' );
+            $options['file_link']        = ( isset($_POST['mm-file_link'])      ? 'true' : 'false' );
+            
+            update_option('mm_gallery_options', $options);
+        }
+      }
+    }
+  
+    public function mm_plugin_action_links($links, $file) {
+      $plugin_file = basename(__FILE__);
+      if (basename($file) == $plugin_file) {
+        $settings_link = '<a href="options-general.php?page=mm-bg-options">'.__('Settings', 'mm_bg').'</a>';
+        array_unshift($links, $settings_link);
+      }
+      return $links;
+    }
+  
+    /*
+    * Admin Options Page
+    */
+    public function mm_options_page() {   
+      $tmp = $this->plugin_dir . '/inc/views/options-page.php';
+     
+      ob_start();
+      include( $tmp );
+      $output = ob_get_contents();
+      ob_end_clean();
+      echo $output;
+    }
+  
+    /*
+    * Add Options Page to Settings menu
+    */
+    public function gads_options_menu() {   
+      if(function_exists('add_submenu_page')) {
+        add_options_page(__('Better Gallery Settings', 'mm_bg'), __('Better Gallery Settings', 'mm_bg'), 'manage_options', 'mm-bg-options', array($this,'mm_options_page'));
+      }
     }
 
     /**
