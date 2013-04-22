@@ -97,7 +97,7 @@ class MM_Better_Gallery {
         }
       }
     }
-  
+
     public function mm_plugin_action_links($links, $file) {
       $plugin_file = basename(__FILE__);
       if (basename($file) == $plugin_file) {
