@@ -58,9 +58,10 @@ class MM_Better_Gallery {
 
     public function mm_get_options() {
       $options = get_option('mm_gallery_options');
+      $current = $this->mm_current_version();
 
       // Test to see if options exist
-      if( $options == FALSE ) {  
+      if( $options == FALSE || !$current) {  
         update_option('mm_gallery_options', $this->defaults);
         $options = $this->defaults;
       }
