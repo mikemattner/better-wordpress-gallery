@@ -39,5 +39,5 @@ $options  = get_option('mm_gallery_options');
 					<?php submit_button( __('Save Changes', 'mm_bg'), 'button-primary', 'submit', false ); ?>
 				</p>
 			</form>
-			
+			<p style="font-size: 75%; color: #999;">Version <?php echo $options['version']; ?></p>
 		</div>
