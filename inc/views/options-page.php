@@ -5,7 +5,7 @@
  */
 
  
-//right_now,comments,incoming_links,plugins,quick_press,recent_drafts,wordpress_blog,wordpress_news
+//'include_css','show_captions','file_link','itemtag','icontag','captiontag','columns','size'
 $options  = get_option('mm_gallery_options');
 
 ?>
@@ -30,6 +30,26 @@ $options  = get_option('mm_gallery_options');
 						<tr>
 							<th scope="row"><?php _e('Always Link to Attachment File', 'mm_bg'); ?></th>
 							<td><label><input name="mm-file_link" id="mm-file_link" value="true" type="checkbox" <?php if ( $options['file_link'] == 'true' ) echo ' checked="checked" '; ?> /> &mdash; <?php _e('Check if you want link="file" to be a default attribute.', 'file_link'); ?></label></td>
+						</tr>
+						<tr>
+							<th scope="row"><label><?php _e('Item Tag', 'mm_bg'); ?></label></th>
+							<td><input name="mm-itemtag" id="mm-itemtag" type="text" <?php echo ' value="'.$options['itemtag'].'" '; ?> /></td>
+						</tr>
+						<tr>
+							<th scope="row"><label><?php _e('Icon Tag', 'mm_bg'); ?></label></th>
+							<td><input name="mm-icontag" id="mm-icontag" type="text" <?php echo ' value="'.$options['icontag'].'" '; ?> /></td>
+						</tr>
+						<tr>
+							<th scope="row"><label><?php _e('Caption Tag', 'mm_bg'); ?></label></th>
+							<td><input name="mm-captiontag" id="mm-captiontag" type="text" <?php echo ' value="'.$options['captiontag'].'" '; ?> /></td>
+						</tr>
+						<tr>
+							<th scope="row"><label><?php _e('Number of Columns', 'mm_bg'); ?></label></th>
+							<td><input name="mm-columns" id="mm-columns" type="text" <?php echo ' value="'.$options['columns'].'" '; ?> /></td>
+						</tr>
+						<tr>
+							<th scope="row"><label><?php _e('Thumbnail Size', 'mm_bg'); ?></label></th>
+							<td><input name="mm-size" id="mm-size" type="text" <?php echo ' value="'.$options['size'].'" '; ?> /></td>
 						</tr>
 					</tbody>
 				</table>
