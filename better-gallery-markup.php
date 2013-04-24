@@ -1,18 +1,18 @@
 <?php
 /**
  * @package MM_Better_Gallery
- * @version 1.2.0
+ * @version 1.3.0
  */
 /*
 Plugin Name: Better Gallery Shortcode
 Plugin URI: http://mikemattner.com
 Description: This plugin uses more semantic markup for the gallery shortcode output. Modify plugin CSS on your own.
 Author: Mike Mattner
-Version: 1.2.0
+Version: 1.3.0
 Author URI: http://mikemattner.com/
 */
 
-define('MM_PLUGIN_VER', '1.2.0');
+define('MM_PLUGIN_VER', '1.3.0');
 define('MM_PLUGIN_NAME', 'MM_Better_Gallery');
 
 class MM_Better_Gallery {
@@ -24,6 +24,11 @@ class MM_Better_Gallery {
             'include_css'   => 'true',
             'show_captions' => 'true',
             'file_link'     => 'false',
+            'itemtag'       => 'figure',
+            'icontag'       => '',
+            'captiontag'    => 'figcaption',
+            'columns'       => 3,
+            'size'          => 'thumbnail',
             'version'       => MM_PLUGIN_VER,
             'name'          => MM_PLUGIN_NAME
           );
@@ -84,14 +89,19 @@ class MM_Better_Gallery {
     public function mm_options_save() {
       $options = $this->options;
 
-      //include_css,show_captions,file_link
+      //'include_css','show_captions','file_link','itemtag','icontag','captiontag','columns','size'
       if(wp_verify_nonce($_REQUEST['_wp_mm_bg_nonce'],'mm_bg')) {
         if ( isset($_POST['submit']) ) {
           ( function_exists('current_user_can') && !current_user_can('manage_options') ) ? die(__('Cheatin&#8217; uh?', 'mm_custom')) : null;
                         
-            $options['include_css']      = ( isset($_POST['mm-include_css'])    ? 'true' : 'false' );
-            $options['show_captions']    = ( isset($_POST['mm-show_captions'])  ? 'true' : 'false' );
-            $options['file_link']        = ( isset($_POST['mm-file_link'])      ? 'true' : 'false' );
+            $options['include_css']      = ( isset($_POST['mm-include_css'])    ? 'true'                                                : 'false' );
+            $options['show_captions']    = ( isset($_POST['mm-show_captions'])  ? 'true'                                                : 'false' );
+            $options['file_link']        = ( isset($_POST['mm-file_link'])      ? 'true'                                                : 'false' );
+            $options['itemtag']          = ( isset($_POST['mm-itemtag'])        ? stripslashes ( strip_tags($_POST['mm-itemtag'] ) )    : '' );
+            $options['icontag']          = ( isset($_POST['mm-icontag'])        ? stripslashes ( strip_tags($_POST['mm-icontag'] ) )    : '' );
+            $options['captiontag']       = ( isset($_POST['mm-captiontag'])     ? stripslashes ( strip_tags($_POST['mm-captiontag'] ) ) : '' );
+            $options['columns']          = ( isset($_POST['mm-columns'])        ? stripslashes ( strip_tags($_POST['mm-columns'] ) )    : '' );
+            $options['size']             = ( isset($_POST['mm-size'])           ? stripslashes ( strip_tags($_POST['mm-size'] ) )       : '' );
             
             update_option('mm_gallery_options', $options);
         }
@@ -189,7 +199,8 @@ class MM_Better_Gallery {
     */
 
     public function mm_gallery_shortcode($attr) {
-      $post = get_post();
+      $options = $this->options;
+      $post    = get_post();
 
       static $instance = 0;
       $instance++;
@@ -217,11 +228,11 @@ class MM_Better_Gallery {
         'order'      => 'ASC',
         'orderby'    => 'menu_order ID',
         'id'         => $post->ID,
-        'itemtag'    => 'figure',
-        'icontag'    => '',
-        'captiontag' => 'figcaption',
-        'columns'    => 3,
-        'size'       => 'thumbnail',
+        'itemtag'    => $options['itemtag'],
+        'icontag'    => $options['icontag'],
+        'captiontag' => $options['captiontag'],
+        'columns'    => $options['columns'],
+        'size'       => $options['size'],
         'include'    => '',
         'exclude'    => ''
       ), $attr));
