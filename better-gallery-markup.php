@@ -66,9 +66,25 @@ class MM_Better_Gallery {
       $current = $this->mm_current_version();
 
       // Test to see if options exist
-      if( $options == FALSE || !$current) {  
-        update_option('mm_gallery_options', $this->defaults);
-        $options = $this->defaults;
+      if( $options == FALSE) {  
+          update_option('mm_gallery_options', $this->defaults);
+          $options = $this->defaults;
+      } else if(!$current) {
+          $defaults = $this->defaults;
+
+          $new_options['include_css']      = ( array_key_exists('include_css',$options)    ? $options['include_css']   : $defaults['include_css'] );
+          $new_options['show_captions']    = ( array_key_exists('show_captions',$options)  ? $options['show_captions'] : $defaults['show_captions'] );
+          $new_options['file_link']        = ( array_key_exists('file_link',$options)      ? $options['file_link']     : $defaults['file_link'] );
+          $new_options['itemtag']          = ( array_key_exists('itemtag',$options)        ? $options['itemtag']       : $defaults['itemtag'] );
+          $new_options['icontag']          = ( array_key_exists('icontag',$options)        ? $options['icontag']       : $defaults['icontag'] );
+          $new_options['captiontag']       = ( array_key_exists('captiontag',$options)     ? $options['captiontag']    : $defaults['captiontag'] );
+          $new_options['columns']          = ( array_key_exists('columns',$options)        ? $options['columns']       : $defaults['columns'] );
+          $new_options['size']             = ( array_key_exists('size',$options)           ? $options['include_css']   : $defaults['size'] );
+          $new_options['version']          = $defaults['version'];
+          $new_options['name']             = $defaults['name'];
+          
+          update_option('mm_gallery_options', $new_options);
+          $options = $new_options;
       }
       return $options;
     }
