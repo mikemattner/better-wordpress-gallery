@@ -82,7 +82,7 @@ class MM_Better_Gallery {
           $new_options['size']             = ( array_key_exists('size',$options)           ? $options['include_css']   : $defaults['size'] );
           $new_options['version']          = $defaults['version'];
           $new_options['name']             = $defaults['name'];
-          
+
           update_option('mm_gallery_options', $new_options);
           $options = $new_options;
       }
@@ -91,7 +91,6 @@ class MM_Better_Gallery {
 
     /**
     * Check if version is current
-    * Won't have anything to check against for now
     */
     protected function mm_current_version() {
       $options = $this->options;
