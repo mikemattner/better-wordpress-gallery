@@ -11,3 +11,8 @@ Some basic options have been added and can be checked on the settings page, Sett
 * The option to include the plugin CSS
 * The option show, or remove captions permanently (by request)
 * The option to set the attribute file="link" as the default link option
+* Set the item tag (default is figure)
+* Set the icon tage
+* Set the caption (default is figcaption)
+* Set the default number of columns (3 is default)
+* If you're familiar with your thumbnail sizes, you can adjust the default of 'thumbnail' to whatever you like
