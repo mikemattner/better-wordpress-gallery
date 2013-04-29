@@ -208,6 +208,7 @@ class MM_Better_Gallery {
 
     /**
     * Modified Gallery shortcode. Changes markup output.
+    * Original function located at: http://core.trac.wordpress.org/browser/tags/3.5.1/wp-includes/media.php#L659
     *
     * @param array $attr Attributes of the shortcode.
     * @return string HTML content to display gallery.
