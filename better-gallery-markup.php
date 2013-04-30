@@ -79,7 +79,7 @@ class MM_Better_Gallery {
           $new_options['icontag']          = ( array_key_exists('icontag',$options)        ? $options['icontag']       : $defaults['icontag'] );
           $new_options['captiontag']       = ( array_key_exists('captiontag',$options)     ? $options['captiontag']    : $defaults['captiontag'] );
           $new_options['columns']          = ( array_key_exists('columns',$options)        ? $options['columns']       : $defaults['columns'] );
-          $new_options['size']             = ( array_key_exists('size',$options)           ? $options['include_css']   : $defaults['size'] );
+          $new_options['size']             = ( array_key_exists('size',$options)           ? $options['size']          : $defaults['size'] );
           $new_options['version']          = $defaults['version'];
           $new_options['name']             = $defaults['name'];
 
