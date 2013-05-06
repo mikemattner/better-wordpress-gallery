@@ -1,18 +1,18 @@
 <?php
 /**
  * @package MM_Better_Gallery
- * @version 1.4.0
+ * @version 1.4.1
  */
 /*
 Plugin Name: Better Gallery Shortcode
 Plugin URI: http://mikemattner.com
 Description: This plugin uses more semantic markup for the gallery shortcode output. Modify plugin CSS on your own.
 Author: Mike Mattner
-Version: 1.3.0
+Version: 1.4.1
 Author URI: http://mikemattner.com/
 */
 
-define( 'MM_PLUGIN_VER', '1.4.0' );
+define( 'MM_PLUGIN_VER', '1.4.1' );
 define( 'MM_PLUGIN_NAME', 'MM_Better_Gallery' );
 define( 'PLUGIN_PATH', dirname( __FILE__ ) );
 define( 'CSS_DIR', PLUGIN_PATH . '/assets/css/' );
@@ -149,7 +149,7 @@ class MM_Better_Gallery {
             $css                         = ( isset($_POST['mm-css'])            ? stripslashes ( strip_tags($_POST['mm-css'] ) )        : 'false' );
             
             if($css != 'false') {
-              mm_update_css($css);
+              $this->mm_update_css($css);
               update_option('mm_gallery_css', $css);
             }
             update_option('mm_gallery_options', $options);
