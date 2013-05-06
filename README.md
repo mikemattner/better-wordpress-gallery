@@ -9,6 +9,7 @@ Options
 Some basic options have been added and can be checked on the settings page, Settings>Better Gallery Settings, and include:
 
 * The option to include the plugin CSS
+* The option to edit css on the options page
 * The option show, or remove captions permanently (by request)
 * The option to set the attribute file="link" as the default link option
 * Set the item tag (default is figure)
