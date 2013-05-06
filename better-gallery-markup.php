@@ -55,7 +55,7 @@ class MM_Better_Gallery {
       isset($_REQUEST['_wp_mm_bg_nonce']) ? add_action('admin_init',array($this,'mm_options_save') ) : null;
       add_action( 'admin_init', array($this,'mm_get_options') );                              // set default values on first run
       add_filter( 'plugin_action_links', array($this,'mm_plugin_action_links'), 10, 3 );      // add settings page to menu
-      add_action( 'admin_menu', array($this,'gads_options_menu') );                           // options page
+      add_action( 'admin_menu', array($this,'mm_options_menu') );                           // options page
     }
 
     /**
@@ -190,7 +190,7 @@ class MM_Better_Gallery {
     /*
     * Add Options Page to Settings menu
     */
-    public function gads_options_menu() {   
+    public function mm_options_menu() {   
       if(function_exists('add_submenu_page')) {
         add_options_page(__('Better Gallery Settings', 'mm_bg'), __('Better Gallery Settings', 'mm_bg'), 'manage_options', 'mm-bg-options', array($this,'mm_options_page'));
       }
