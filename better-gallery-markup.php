@@ -6,7 +6,7 @@
 /*
 Plugin Name: Better Gallery Shortcode
 Plugin URI: http://mikemattner.com
-Description: This plugin uses more semantic markup for the gallery shortcode output. Modify plugin CSS on your own.
+Description: This plugin uses more semantic markup for the gallery shortcode output.
 Author: Mike Mattner
 Version: 1.4.1
 Author URI: http://mikemattner.com/

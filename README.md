@@ -1,7 +1,7 @@
 Better WordPress Gallery
 ========================
 
-This plugin uses more semantic markup for the gallery shortcode output. Use your gallery shortcode as you normally would. I recommend modifying the included CSS to fit your theme's layout, but these base styles should make a responsive approach pretty simple.
+This plugin uses more semantic markup for the gallery shortcode output. Use your gallery shortcode as you normally would. I've included some basic defalt css, and the base styles should make a responsive approach to the gallery fairly simple.
 
 Options
 -------
