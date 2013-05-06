@@ -59,10 +59,10 @@ class MM_Better_Gallery {
     }
 
     /**
-    * Basic options, will add admin page for options
+    * Basic options
     *
     * updates option 'mm_gallery_options' as an array of options
-    * @options include_css, show_captions, file_link, version,name
+    * @options include_css, show_captions, file_link, itemtag, icontag, captiontag, columns, size, version, name, custom css
     */
 
     public function mm_get_options() {
@@ -96,7 +96,11 @@ class MM_Better_Gallery {
       return $options;
     }
 
-    //Default CSS
+    /**
+    * Set our default css
+    *
+    * updates option 'mm_gallery_css' and creates css file
+    */
     public function mm_default_css() {
         $default_css = CSS_DIR . DEFAULT_CSS;
         $new_css     = CSS_DIR . CUSTOM_CSS;
@@ -111,7 +115,11 @@ class MM_Better_Gallery {
         file_put_contents($new_css, $css);    
     }
 
-    //Update CSS
+    /**
+    * 
+    * updates option 'mm_gallery_css' and creates css file
+    *
+    */
     public function mm_update_css($css) {
         $file = CSS_DIR . CUSTOM_CSS;
         $css  = stripslashes ( $css );
