@@ -1,7 +1,7 @@
 <?php
 /**
  * @package MM_Better_Gallery
- * @version 1.3.0
+ * @version 1.4.0
  */
 /*
 Plugin Name: Better Gallery Shortcode
@@ -12,8 +12,12 @@ Version: 1.3.0
 Author URI: http://mikemattner.com/
 */
 
-define('MM_PLUGIN_VER', '1.3.0');
-define('MM_PLUGIN_NAME', 'MM_Better_Gallery');
+define( 'MM_PLUGIN_VER', '1.4.0' );
+define( 'MM_PLUGIN_NAME', 'MM_Better_Gallery' );
+define( 'PLUGIN_PATH', dirname( __FILE__ ) );
+define( 'CSS_DIR', PLUGIN_PATH . '/assets/css/' );
+define( 'DEFAULT_CSS', 'better-gallery.css' );
+define( 'CUSTOM_CSS', 'custom-better-gallery.css' );
 
 class MM_Better_Gallery {
     static $instance;
@@ -69,6 +73,7 @@ class MM_Better_Gallery {
       if( $options == FALSE) {  
           update_option('mm_gallery_options', $this->defaults);
           $options = $this->defaults;
+          $this->mm_default_css();
       } else if(!$current) {
           $defaults = $this->defaults;
 
@@ -85,8 +90,30 @@ class MM_Better_Gallery {
 
           update_option('mm_gallery_options', $new_options);
           $options = $new_options;
+          $this->mm_default_css();
       }
       return $options;
+    }
+
+    //Default CSS
+    public function mm_default_css() {
+        $default_css = CSS_DIR . DEFAULT_CSS;
+        $new_css     = CSS_DIR . CUSTOM_CSS;
+        ob_start();
+        @include( $default_css );
+        $css = ob_get_contents();
+        ob_end_clean();
+        
+        $css = stripslashes ( $css );
+      
+        update_option('mm_gallery_css', $css);
+        file_put_contents($new_css, $css);    
+    }
+
+    //Update CSS
+    public function mm_update_css($css) {
+        $file     = CSS_DIR . CUSTOM_CSS;      
+        file_put_contents($file, $css);    
     }
 
     /**
@@ -117,7 +144,12 @@ class MM_Better_Gallery {
             $options['captiontag']       = ( isset($_POST['mm-captiontag'])     ? stripslashes ( strip_tags($_POST['mm-captiontag'] ) ) : '' );
             $options['columns']          = ( isset($_POST['mm-columns'])        ? stripslashes ( strip_tags($_POST['mm-columns'] ) )    : '' );
             $options['size']             = ( isset($_POST['mm-size'])           ? stripslashes ( strip_tags($_POST['mm-size'] ) )       : '' );
+            $css                         = ( isset($_POST['mm-css'])            ? stripslashes ( strip_tags($_POST['mm-css'] ) )        : 'false' );
             
+            if($css != 'false') {
+              mm_update_css($css);
+              update_option('mm_gallery_css', $css);
+            }
             update_option('mm_gallery_options', $options);
         }
       }
@@ -176,7 +208,7 @@ class MM_Better_Gallery {
       $options = $this->options;
 
       if($options['include_css'] == 'true') {
-        wp_register_style( 'better-gallery-style', $this->plugin_url . 'assets/css/better-gallery.css', array(), '2013-2-04T15:38', 'all' );
+        wp_register_style( 'better-gallery-style', $this->plugin_url . 'assets/css/'.CUSTOM_CSS, array(), '2013-2-04T15:38', 'all' );
         wp_enqueue_style( 'better-gallery-style' );
       }
     }

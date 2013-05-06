@@ -1,7 +1,7 @@
 <?php 
 /**
  * @package MM_Better_Gallery
- * @version 1.3.0
+ * @version 1.4.0
  */
 
  
@@ -21,7 +21,7 @@ $options  = get_option('mm_gallery_options');
 					<tbody>
 					    <tr>
 							<th scope="row"><?php _e('Include CSS', 'mm_bg'); ?></th>
-							<td><label><input name="mm-include_css" id="mm-include_css" value="true" type="checkbox" <?php if ( $options['include_css'] == 'true' ) echo ' checked="checked" '; ?> /> &mdash; <?php _e('Check if you want to include the default css provided with plugin.', 'include_css'); ?></label></td>
+							<td><label><input name="mm-include_css" id="mm-include_css" value="true" type="checkbox" <?php if ( $options['include_css'] == 'true' ) echo ' checked="checked" '; ?> /> &mdash; <?php _e('Check if you want to include css provided with plugin.', 'include_css'); ?></label></td>
 						</tr>
 						<tr>
 							<th scope="row"><?php _e('Show Captions', 'mm_bg'); ?></th>
@@ -50,6 +50,12 @@ $options  = get_option('mm_gallery_options');
 						<tr>
 							<th scope="row"><label><?php _e('Thumbnail Size', 'mm_bg'); ?></label></th>
 							<td><input name="mm-size" id="mm-size" type="text" <?php echo ' value="'.$options['size'].'" '; ?> /></td>
+						</tr>
+						<tr>
+							<th scope="row"><label for="mm-css"><?php _e('Custom CSS', 'mm_bg'); ?></label></th>
+							<td>
+								<textarea style="background:#F9F9F9;font-family: Consolas,Monaco,monospace;font-size: 12px; outline: medium none; width:80%; height:400px;" id="mm-css" name="mm-css" cols="10" rows="8"><?php echo get_option('mm_gallery_css'); ?></textarea>
+							</td>
 						</tr>
 					</tbody>
 				</table>
