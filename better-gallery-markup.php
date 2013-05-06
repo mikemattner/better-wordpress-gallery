@@ -67,13 +67,14 @@ class MM_Better_Gallery {
 
     public function mm_get_options() {
       $options = get_option('mm_gallery_options');
+      $def_css = get_option('mm_gallery_css');
       $current = $this->mm_current_version();
 
       // Test to see if options exist
       if( $options == FALSE) {  
           update_option('mm_gallery_options', $this->defaults);
           $options = $this->defaults;
-          $this->mm_default_css();
+          if( $def_css == FALSE) $this->mm_default_css();
       } else if(!$current) {
           $defaults = $this->defaults;
 
@@ -90,7 +91,7 @@ class MM_Better_Gallery {
 
           update_option('mm_gallery_options', $new_options);
           $options = $new_options;
-          $this->mm_default_css();
+          if( $def_css == FALSE) $this->mm_default_css();
       }
       return $options;
     }
@@ -112,7 +113,8 @@ class MM_Better_Gallery {
 
     //Update CSS
     public function mm_update_css($css) {
-        $file     = CSS_DIR . CUSTOM_CSS;      
+        $file = CSS_DIR . CUSTOM_CSS;
+        $css  = stripslashes ( $css );
         file_put_contents($file, $css);    
     }
 
